@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="chassis">
+
+	<link name="chassis_bottom_link">
+    <visual>
+	    <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="file:///$(find mobi_tri)/meshes/01_chassis_bottom1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	    <material name="yellow"/>
+    </visual>
+
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.04" />
+      <geometry>
+        <box size="0.285 0.198 0.08"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="10"/>
+      <origin rpy="0 0 0" xyz="0 0 0.04"/>
+       <inertia ixx="0.03267" ixy="0" ixz="0" iyy="0.067688" iyz="0" izz="0.100358"/> 
+    </inertial>
+  </link>
+  
+  <link name="chassis_top_link">
+    <visual>
+	    <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="file:///$(find mobi_tri)/meshes/02_chassis_top1.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	    <material name="light_gray"/>
+    </visual>
+  </link>
+
+</xacro:macro>
+
+<xacro:macro name="wheel" params="rim_name screw_name tire_name">
+  
+  <link name="${rim_name}">
+    <visual>
+	    <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="file:///$(find mobi_tri)/meshes/09_rim.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	    <material name="light_gray"/>
+    </visual>
+
+  </link>
+
+  <link name="${screw_name}">
+    <visual>
+	    <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="file:///$(find mobi_tri)/meshes/10_screw.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	    <material name="yellow"/>
+    </visual>
+
+  </link>
+
+  <link name="${tire_name}">
+    <visual>
+	    <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="file:///$(find mobi_tri)/meshes/11_tire.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	    <material name="dark_gray"/>
+    </visual>
+
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.025" />
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.2"/>
+      <origin rpy="0 0 0" xyz="0 0 0.025"/>
+      <inertia ixx="0.000167" ixy="0" ixz="0" iyy="0.000167" iyz="0" izz="0.00025"/>
+    </inertial>
+  </link>
+
+
+   <joint name="${rim_name}_to_${screw_name}_joint" type="fixed">
+        <origin xyz="0 0 0.042" rpy="0 0 0"/>
+        <parent link="${rim_name}"/>
+        <child link="${screw_name}"/>
+  </joint>
+
+  <joint name="${rim_name}_to_${tire_name}_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="${rim_name}"/>
+        <child link="${tire_name}"/>
+  </joint>
+
+
+  </xacro:macro>
+
+</robot>

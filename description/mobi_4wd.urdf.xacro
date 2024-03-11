@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobi">
+
+  <!-- Hier werden die Dateien importiert. -->
+  <xacro:include filename="$(find mobi_ros2)/description/macro.materials.urdf.xacro" />
+  <xacro:include filename="$(find mobi_ros2)/description/macro.parts.urdf.xacro" />
+  <xacro:include filename="$(find mobi_ros2)/description/macro.tower.urdf.xacro" />
+
+  <!-- Farben vom Roboter für RVIZ-->
+  <xacro:materials_rviz />
+  
+  <!-- Base Koordinatensystem als Referenz -->
+  <link name="base_link"/>
+
+  <!-- Chassis wird hier vom macro.parts.urdf.xacro hinzugefügt und dazu die Link Namen gewählt -->
+  <xacro:chassis base_name="base_link" bottom_name="chassis_bottom_link" top_name="chassis_top_link"/>
+  
+  <!-- 4 Räder werden hier vom macro.parts.urdf.xacro hinzugefügt
+  Links vorne 
+  Links hinten 
+  Rechts vorne 
+  Rechts hinten
+  -->
+  <xacro:wheel rim_name="rim_1_link" screw_name="screw_1_link" tire_name="tire_1_link" parent_name="chassis_bottom_link" direction="-1" xyz="0.0975 0.107 0.023" rpy="1.5708 0 3.1415" /> 
+  <xacro:wheel rim_name="rim_2_link" screw_name="screw_2_link" tire_name="tire_2_link" parent_name="chassis_bottom_link" direction="-1" xyz="-0.0975 0.107 0.023" rpy="1.5708 0 3.1415"/> 
+  <xacro:wheel rim_name="rim_3_link" screw_name="screw_3_link" tire_name="tire_3_link" parent_name="chassis_bottom_link" direction="1" xyz="0.0975 -0.107 0.023" rpy="1.5708 0 0"/> 
+  <xacro:wheel rim_name="rim_4_link" screw_name="screw_4_link" tire_name="tire_4_link" parent_name="chassis_bottom_link" direction="1" xyz="-0.0975 -0.107 0.023" rpy="1.5708 0 0"/> 
+  
+  <!-- Obere Abschnitt von Mobi mit all den Sensoren wird hier hinzugefügt -->
+  <xacro:tower /> 
+
+  <!-- Gazebo Plugin für die Steuerung der Motoren wird ab hier implementiert -->
+  <gazebo>
+      <plugin name="mobi_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
+        <ros>
+            <remapping>~/out:=joint_states</remapping>
+        </ros>
+        
+        <update_rate>100</update_rate>
+
+        <joint_name>chassis_bottom_link_to_rim_1_link_joint</joint_name>
+        <joint_name>chassis_bottom_link_to_rim_2_link_joint</joint_name>
+
+        <joint_name>chassis_bottom_link_to_rim_3_link_joint</joint_name>
+        <joint_name>chassis_bottom_link_to_rim_4_link_joint</joint_name>
+
+      </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <ros>
+        <!-- Namespace wird gesetzt -->
+        <namespace>/mobi</namespace>
+
+        <!-- Remapping von den Default Topics kann hier umbenannt werden -->
+        <remapping>cmd_vel:=cmd_vel</remapping>
+        <remapping>odom:=odom</remapping>
+      </ros>
+
+      <!-- Update rate -->
+      <update_rate>100</update_rate>
+
+      <!-- Anzahl an Räderpaare -->
+      <num_wheel_pairs>2</num_wheel_pairs>
+
+      <!-- Joints von den jeweiligen Räder angeben -->
+        <left_joint>chassis_bottom_link_to_rim_1_link_joint</left_joint>
+        <right_joint>chassis_bottom_link_to_rim_3_link_joint</right_joint>
+        <left_joint>chassis_bottom_link_to_rim_2_link_joint</left_joint>
+        <right_joint>chassis_bottom_link_to_rim_4_link_joint</right_joint>
+        
+      
+        <!-- Kinematik Details werden hier angegeben -->
+        <!-- https://classic.gazebosim.org/tutorials?tut=ros_gzplugins&cat=connect_ros -->
+        <wheel_separation>0.214</wheel_separation>
+        <wheel_diameter>0.100</wheel_diameter>
+
+        <!-- Maximaler Moment der Räder hier angeben -->
+        <max_wheel_torque>5.0</max_wheel_torque>
+        <!-- Beschleunigung der Räder  -->
+        <max_wheel_acceleration>0.5</max_wheel_acceleration>
+
+        <!-- Output Informationen -->
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+        <publish_wheel_tf>true</publish_wheel_tf>
+
+        <!-- Koordinaten an denen die Informationen aktuallisiert wird -->
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+    </plugin>
+  </gazebo>
+
+</robot>

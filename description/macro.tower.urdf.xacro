@@ -1,0 +1,622 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Hier befinden sich alle 3D Verknüpfungen des oberen Teils vom Mobi  -->
+<xacro:macro name="tower">
+
+  <link name="housing_link">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/03_housing.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/03_housing.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="dark_gray"/>
+    </visual>
+  </link>
+
+  <link name="sonic1_link">
+    <visual>
+	<origin rpy="1.5708 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="sonic2_link">
+    <visual>
+	<origin rpy="-1.5708 0 1.5708" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="sonic3_link">
+    <visual>
+	<origin rpy="-1.5708 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="sonic4_link">
+    <visual>
+	<origin rpy="-1.5708 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="sonic5_link">
+    <visual>
+	<origin rpy="-1.5708 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="sonic6_link">
+    <visual>
+	<origin rpy="-1.5708 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/04_ultrasonic.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="raspi_link">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/05_raspi.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/05_raspi.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="light_gray"/>
+    </visual>
+  </link>
+  
+  <link name="tower_link">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/06_tower.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/06_tower.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+	<material name="gray"/>
+    </visual>
+  </link>
+  
+  <link name="lidar_link">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="package://mobi_ros2/meshes/07_lidar.stl" scale="0.001 0.001 0.001"/> -->
+        <mesh filename="file:///$(find mobi_ros2)/meshes/rplidar.dae" scale="1.0 1.0 1.0" />
+      </geometry>
+	<material name="dark_gray"/>
+    </visual>
+  </link>
+
+  <link name="lidar_scan_frame"/>
+  <link name="imu_link"/>
+  <link name="depth_link"/>
+
+  <link name="depth_cam_frame"/>
+
+  <joint name="frame_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+        <parent link="depth_link"/>
+        <child link="depth_cam_frame"/>
+  </joint>
+  
+ 
+  <joint name="chassis_top_link_to_housing_link_joint" type="fixed">
+        <origin xyz="0 0 0.003" rpy="0 0 0"/>
+        <parent link="chassis_top_link"/>
+        <child link="housing_link"/>
+  </joint>
+
+
+  <joint name="housing_link_to_sonic1_link_joint" type="fixed">
+        <origin xyz="0 0.0885 0.047" rpy="0 0 1.5708"/>
+        <parent link="housing_link"/>
+        <child link="sonic1_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_sonic2_link_joint" type="fixed">
+        <origin xyz="0 -0.0885 0.047" rpy="0 0 -1.5708"/>
+        <parent link="housing_link"/>
+        <child link="sonic2_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_sonic3_link_joint" type="fixed">
+        <origin xyz="0.092 0.04175 0.047" rpy="0 0 0.2268"/>
+        <parent link="housing_link"/>
+        <child link="sonic3_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_sonic4_link_joint" type="fixed">
+        <origin xyz="0.092 -0.04175 0.047" rpy="0 0 -0.2268"/>
+        <parent link="housing_link"/>
+        <child link="sonic4_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_sonic5_link_joint" type="fixed">
+        <origin xyz="-0.092 0.04175 0.047" rpy="0 0 -3.3684"/>
+        <parent link="housing_link"/>
+        <child link="sonic5_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_sonic6_link_joint" type="fixed">
+        <origin xyz="-0.092 -0.04175 0.047" rpy="0 0 3.3684"/>
+        <parent link="housing_link"/>
+        <child link="sonic6_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_raspi_link_joint" type="fixed">
+        <origin xyz="0 0 0.0715" rpy="0 0 0"/>
+        <parent link="housing_link"/>
+        <child link="raspi_link"/>
+  </joint>
+  
+  <joint name="housing_link_to_tower_link_joint" type="fixed">
+        <origin xyz="0 0 0.0715" rpy="0 0 0"/>
+        <parent link="housing_link"/>
+        <child link="tower_link"/>
+  </joint>
+  
+  <joint name="tower_link_to_lidar_link_joint" type="fixed">
+        <origin xyz="0 0 0.0656" rpy="0 0 0"/>
+        <parent link="tower_link"/>
+        <child link="lidar_link"/>
+  </joint>
+
+  <joint name="lidar_link_to_lidar_lidar_scan_frame_joint" type="fixed">
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <parent link="lidar_link"/>
+        <child link="lidar_scan_frame"/>
+  </joint>
+
+  <joint name="lidar_link_to_imu_link_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="housing_link"/>
+        <child link="imu_link"/>
+  </joint>
+
+  <joint name="lidar_link_to_depth_link_joint" type="fixed">
+        <origin xyz="0.05 0 0.02" rpy="0 0 0"/>
+        <parent link="lidar_link"/>
+        <child link="depth_link"/>
+  </joint>
+ 
+</xacro:macro>
+
+<gazebo reference="depth_link">
+    <sensor name="depth_cam" type="depth">
+        <always_on>true</always_on>
+        <update_rate>15</update_rate>
+        <pose>0 0 0 0 0 0</pose>
+        <camera name="realsense_depth_camera">
+            <horizontal_fov>1.46608</horizontal_fov>
+            <image>
+                <width>424</width>
+                <height>240</height>
+                <format>B8G8R8</format>
+            </image>
+            <clip>
+                <near>0.05</near>
+                <far>8</far>
+            </clip>
+        </camera>
+        <!-- https://github.com/mlherd/ros2_turtlebot3_waffle_intel_realsense -->
+        <plugin name="intel_realsense_d430_depth_driver" filename="libgazebo_ros_camera.so">
+            <ros>
+                <namespace>d430</namespace>
+                <remapping>depth_cam/image_raw:=color/image_raw</remapping>
+                <remapping>depth_cam/depth/image_raw:=depth/image_rect_raw</remapping>
+                <remapping>depth_cam/camera_info:=camera_info</remapping>
+                <remapping>depth_cam/depth/camera_info:=depth/camera_info</remapping>
+                <remapping>depth_cam/points:=depth/points</remapping>
+            </ros>
+            <camera_name>depth_cam</camera_name>
+            <frame_name>depth_cam_frame</frame_name>
+            <hack_baseline>0.07</hack_baseline>
+            <min_depth>0.05</min_depth>
+            <max_depth>8.0</max_depth>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="lidar_scan_frame">
+    <sensor name="sensor_ray" type="ray">
+        <pose>0 0 0 0 0 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>200</samples>
+              <resolution>1.0</resolution>
+              <min_angle>-3.14</min_angle>
+              <max_angle>3.14</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.15</min>
+            <max>5.0</max>
+          </range>
+        </ray>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>100.0</update_rate>
+        <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <namespace>/mobi</namespace>
+            <remapping>~/out:=laser_scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="imu_link">
+    <sensor name="br_imu" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+        <plugin name="bytes_imu" filename="libgazebo_ros_imu_sensor.so">
+            <ros>
+                <namespace>imu</namespace>
+                <remapping>~/out:=data</remapping>
+            </ros>
+            <initial_orientation_as_reference>false</initial_orientation_as_reference>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="gps_link">
+    <sensor name="gps_sensor" type="gps">
+        <always_on>true</always_on>
+        <update_rate>1.0</update_rate>
+        <plugin name="gps_controller" filename="libgazebo_ros_gps_sensor.so">
+            <ros>
+                <!-- <namespace>/br</namespace> -->
+                <remapping>gps_controller/out:=gps</remapping>
+            </ros>
+            <frame_name>gps_link</frame_name>
+        </plugin>
+    </sensor>
+    <material>Gazebo/Grey</material>
+</gazebo>
+
+
+<gazebo reference="sonic1_link">
+    <material>Gazebo/Red</material>
+    <sensor name="sonic1_ultrasound" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 1.5708</pose>
+        <update_rate>10</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </horizontal>
+                <vertical>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.02</min>
+                <max>3</max>
+                <resolution>0.01</resolution>
+            </range>
+            <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="bytes_ultrasound1" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>distance</namespace>
+                <remapping>~/out:=sonic1</remapping>
+            </ros>
+            <output_type>sensor_msgs/Range</output_type>
+            <radiation_type>ultrasound</radiation_type>
+            <frame_name>sonic1_link</frame_name>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="sonic2_link">
+    <material>Gazebo/Red</material>
+    <sensor name="sonic2_ultrasound" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 1.5708</pose>
+        <update_rate>10</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </horizontal>
+                <vertical>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.02</min>
+                <max>3</max>
+                <resolution>0.01</resolution>
+            </range>
+            <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="bytes_ultrasound2" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>distance</namespace>
+                <remapping>~/out:=sonic2</remapping>
+            </ros>
+            <output_type>sensor_msgs/Range</output_type>
+            <radiation_type>ultrasound</radiation_type>
+            <frame_name>sonic2_link</frame_name>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="sonic3_link">
+    <material>Gazebo/Red</material>
+    <sensor name="sonic3_ultrasound" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 1.5708</pose>
+        <update_rate>10</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </horizontal>
+                <vertical>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.02</min>
+                <max>3</max>
+                <resolution>0.01</resolution>
+            </range>
+            <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="bytes_ultrasound3" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>distance</namespace>
+                <remapping>~/out:=sonic3</remapping>
+            </ros>
+            <output_type>sensor_msgs/Range</output_type>
+            <radiation_type>ultrasound</radiation_type>
+            <frame_name>sonic3_link</frame_name>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="sonic4_link">
+    <material>Gazebo/Red</material>
+    <sensor name="sonic4_ultrasound" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 1.5708</pose>
+        <update_rate>10</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </horizontal>
+                <vertical>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.02</min>
+                <max>3</max>
+                <resolution>0.01</resolution>
+            </range>
+            <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="bytes_ultrasound4" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>distance</namespace>
+                <remapping>~/out:=sonic4</remapping>
+            </ros>
+            <output_type>sensor_msgs/Range</output_type>
+            <radiation_type>ultrasound</radiation_type>
+            <frame_name>sonic4_link</frame_name>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="sonic5_link">
+    <material>Gazebo/Red</material>
+    <sensor name="sonic5_ultrasound" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 1.5708</pose>
+        <update_rate>10</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </horizontal>
+                <vertical>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.02</min>
+                <max>3</max>
+                <resolution>0.01</resolution>
+            </range>
+            <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="bytes_ultrasound5" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>distance</namespace>
+                <remapping>~/out:=sonic5</remapping>
+            </ros>
+            <output_type>sensor_msgs/Range</output_type>
+            <radiation_type>ultrasound</radiation_type>
+            <frame_name>sonic5_link</frame_name>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="sonic6_link">
+    <material>Gazebo/Red</material>
+    <sensor name="sonic6_ultrasound" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 1.5708</pose>
+        <update_rate>10</update_rate>
+        <ray>
+            <scan>
+                <horizontal>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </horizontal>
+                <vertical>
+                    <samples>5</samples>
+                    <resolution>1.0</resolution>
+                    <min_angle>-0.06</min_angle>
+                    <max_angle>0.06</max_angle>
+                </vertical>
+            </scan>
+            <range>
+                <min>0.02</min>
+                <max>3</max>
+                <resolution>0.01</resolution>
+            </range>
+            <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="bytes_ultrasound6" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>distance</namespace>
+                <remapping>~/out:=sonic6</remapping>
+            </ros>
+            <output_type>sensor_msgs/Range</output_type>
+            <radiation_type>ultrasound</radiation_type>
+            <frame_name>sonic6_link</frame_name>
+        </plugin>
+    </sensor>
+</gazebo>
+
+
+
+
+</robot>
