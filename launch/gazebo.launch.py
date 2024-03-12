@@ -30,7 +30,7 @@ def generate_launch_description():
                                               }])
                                             
     # RVIZ Configuration
-    rviz_config_dir = os.path.join(get_package_share_directory("mobi_tri"), 'rviz', 'urdf_vis.rviz')
+    rviz_config_dir = os.path.join(get_package_share_directory("mobi_ros2"), 'rviz', 'urdf_vis.rviz')
 
     rviz_node = Node(
             package='rviz2',
@@ -48,7 +48,7 @@ def generate_launch_description():
 
     # Start Gazebo with my empty world
     world_file_name = 'empty.world'
-    world = os.path.join(get_package_share_directory('mobi_tri'), 'worlds', world_file_name)
+    world = os.path.join(get_package_share_directory('mobi_ros2'), 'worlds', world_file_name)
     gazebo_node = ExecuteProcess(cmd=['gazebo', '--verbose', world, '-s', 'libgazebo_ros_factory.so'], output='screen')
 
     return LaunchDescription([robot_state_publisher, rviz_node, spawn_entity_robot, gazebo_node])
