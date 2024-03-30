@@ -8,7 +8,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     ####### DATA INPUT ##########
-    urdf_file = 'mobi_tri_simple.urdf'
+    urdf_file = 'mobi_4wd.urdf.xacro'
     #xacro_file = "urdfbot.xacro"
     package_description = "mobi_ros2"
 
